@@ -8,6 +8,7 @@ class Manga:
 	ongoing=False;
 	genre=[];
 	parent=None;
+	id=0;
 
 	def __init__(self):
 		self.name=u"";
@@ -16,6 +17,7 @@ class Manga:
 		self.ongoing=False;
 		self.genre=[];
 		self.parent=None;
+		self.id=0;
 
 	def fromDict(self, dict, parent=None):
 		self.name=dict["name"];
@@ -23,6 +25,7 @@ class Manga:
 		self.chapterReaded=dict["chapterReaded"];
 		self.ongoing=dict["ongoing"];
 		self.genre=dict["genre"];
+		self.id=dict["id"];
 		if(not(parent is None)):
 			self.parent=parent;
 		return self;
@@ -34,6 +37,7 @@ class Manga:
 		res["chapterReaded"]=self.chapterReaded;
 		res["ongoing"]=self.ongoing;
 		res["genre"]=self.genre;
+		res["id"]=self.id;
 		return res;
 
 	def toJson(self):

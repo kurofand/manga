@@ -51,3 +51,28 @@ class MangaList:
 		for id in ids:
 			res=res+u"%s,"%self.returnGenreNameById(id);
 		return res[:-1];
+
+	def returnMangaById(self, id):
+		for manga in self.mangas:
+			if(manga.id==id):
+				return manga;
+
+	def returnMangaByName(self, name):
+		for manga in self.mangas:
+			if(manga.name==name):
+				return manga;
+
+	def returnMangasByGenre(self, id):
+		mangas=[];
+		for manga in self.mangas:
+			if(id in manga.genre):
+				mangas.append(manga);
+		return mangas;
+
+	def updateManga(self, id, name=u"", chapterCount=0, chapterReaded=0, ongoing=False, genre=[]):
+		manga=self.returnMangaById(id);
+		manga.name=name;
+		manga.chapterCount=chapterCount;
+		manga.chapterReaded=chapterReaded;
+		manga.ongoing=ongoing;
+		manga.genre=genre;
