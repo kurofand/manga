@@ -3,6 +3,7 @@
 from mangaList import MangaList
 from manga import Manga
 
-mangaList=MangaList().fromJson("manga.json");
+mangaList=MangaList().fromJson("mangaBac.json");
 for manga in mangaList.mangas:
 	manga.toScr();
+mangaList.toJson("mangaBac.json");

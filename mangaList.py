@@ -24,14 +24,14 @@ class MangaList:
 		f=open(fName, "w");
 		s=u"{";
 		s=s+u"\"mangas\":["
-		for manga in mangas:
+		for manga in self.mangas:
 			s=s+manga.toJson()+u",";
 		s=s[:-1]+u"],";
 		s=s+u"\"genres\":[";
-		for genre in genres:
+		for genre in self.genres:
 			s=s+u"{"
 			for key in genre.keys():
-				s=s+u"\"%s\":\"%s\","%(key, genre[key]);
+				s=s+u"\"%s\":"%key+(u"\"%s\","%genre[key] if((isinstance(genre[key], str)or(isinstance(genre[key], unicode)))) else u"%s,"%unicode(genre[key]));
 			s=s[:-1]+u"},";
 		s=s[:-1]+u"]";
 		s=s+u"}";

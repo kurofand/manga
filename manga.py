@@ -46,7 +46,11 @@ class Manga:
 			elif(isinstance(dict[key], bool)):
 				s=s+u"%s"%unicode(dict[key]).replace(u"F", u"f").replace(u"T", u"t");
 			elif(isinstance(dict[key], list)):
-				s=s+u"[\"%s\"]"%u"\",\"".join(dict[key]);
+#				s=s+u"[%d]"%u",".join(dict[key]);
+				s=s+u"[";
+				for e in dict[key]:
+					s=s+u"%s,"%unicode(e);
+				s=s[:-1]+u"]";
 			else:
 				s=s+unicode(dict[key]);
 			s=s+u",";
