@@ -7,23 +7,25 @@ class Manga:
 	chapterReaded=0;
 	ongoing=False;
 	genre=[];
+	parent=None;
 
-	def __init__(self, name=u"", chapterCount=0, chapterReaded=0, ongoing=False, genre=[]):
-		self.name=name;
-		self.chapterCount=chapterCount;
-		self.chapterReaded=chapterReaded;
-		self.ongoing=ongoing;
-		self.genre=genre;
+	def __init__(self):
+		self.name=u"";
+		self.chapterCount=0;
+		self.chapterReaded=0;
+		self.ongoing=False;
+		self.genre=[];
+		self.parent=None;
 
-	def fromJson(self, fName):
-		f=open(fName, "r");
-		jStr=json.load(f);
-		f.close();
-		self.name=jStr["name"];
-		self.chapterCount=jStr["chapterCount"];
-		self.chapterReaded=jStr["chapterReaded"];
-		self.ongoing=jStr["ongoing"];
-		self.genre=jStr["genre"];
+	def fromDict(self, dict, parent=None):
+		self.name=dict["name"];
+		self.chapterCount=dict["chapterCount"];
+		self.chapterReaded=dict["chapterReaded"];
+		self.ongoing=dict["ongoing"];
+		self.genre=dict["genre"];
+		if(not(parent is None)):
+			self.parent=parent;
+		return self;
 
 	def toDict(self):
 		res={};
@@ -34,8 +36,7 @@ class Manga:
 		res["genre"]=self.genre;
 		return res;
 
-	def toJson(self, fName):
-		f=open(fName, "w");
+	def toJson(self):
 		s=u"{";
 		dict=self.toDict();
 		for key in dict.keys():
@@ -48,18 +49,12 @@ class Manga:
 				s=s+u"[\"%s\"]"%u"\",\"".join(dict[key]);
 			else:
 				s=s+unicode(dict[key]);
-#			if(key==u"name"):
-#				s=s+u"\"%s\","%(key, dict[key]);
-#			elif(key=="ongoing"):
-#				s=s+u"\"%s\"
-#			elif(key!="genre"):
-#				s=s+u"\"%s\":%s,"%(key, dict[key]);
-#			else:
-#				s=s+u"\"%s\":[\"%s\"],"%(key, u"\",\"".join(dict[key]));
 			s=s+u",";
 		s=s[:-1]+u"}";
-		f.write(s.encode("utf-8"));
-		f.close();
+		return s;
 
 	def toScr(self):
-		print(u"Название:%s\nКоличество глав:%s\nГлав прочитано:%s\nОнгоинг:%s\nЖанры:%s"%(self.name, self.chapterCount, self.chapterReaded, u"да" if(self.ongoing) else u"нет", u",".join(self.genre)));
+		genres=u"";
+		if(not(self.parent is None)):
+			genres=self.parent.returnGenres(self.genre);
+		print(u"Название:%s\nКоличество глав:%s\nГлав прочитано:%s\nОнгоинг:%s\nЖанры:%s"%(self.name, self.chapterCount, self.chapterReaded, u"да" if(self.ongoing) else u"нет", genres));
